@@ -1,5 +1,5 @@
 {
-  "name": "notes_app",
+  "name": "routine_tracker",
   "integrations": {
     "capacitor": {}
   },
