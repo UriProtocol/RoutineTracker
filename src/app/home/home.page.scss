@@ -1,0 +1,39 @@
+:root {
+    --input-background-color-light: #ffffff;
+    --input-background-color-dark: #333333;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --input-background-color-light: #333333;
+        --input-background-color-dark: #ffffff;
+    }
+}
+
+ion-label {
+    p {
+        margin-top: 5px;
+    }
+}
+
+.input-desc {
+    background-color: transparent;
+    height: 100vh;
+}
+
+.input-title {
+    background-color: transparent;
+}
+
+.spinner-centered {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}

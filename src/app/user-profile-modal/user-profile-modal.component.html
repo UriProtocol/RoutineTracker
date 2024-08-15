@@ -1,0 +1,51 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isEditing" (click)="editProfile()" color="primary">Editar</ion-button>
+      <ion-button *ngIf="isEditing" (click)="cancelChange()" color="primary">Cancelar</ion-button>
+    </ion-buttons>
+    <ion-title class="text-center text-2xl">Perfil</ion-title>
+    <ion-buttons slot="start" *ngIf="!isEditing">
+      <ion-button (click)="dismissModal()">
+        <ion-icon name="arrow-back-outline" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ml-5 mr-5">
+  <div class="profile-image-container mr-4" *ngIf="!isEditing">
+    <img [src]="userProfile.photoUrl ? userProfile.photoUrl : 'https://ionicframework.com/docs/img/demos/avatar.svg'" alt="Foto de perfil"
+      class="profile-image" />
+  </div>
+
+  <div *ngIf="!isEditing">
+    <div class="ml-8 mb-2">
+      <ion-text class="font-bold text-xl">Nombre: </ion-text>
+      <ion-text class="text-xl">{{userProfile.name}}</ion-text>
+    </div>
+    <div class="ml-8 mb-2">
+      <ion-text class="font-bold text-xl">Email: </ion-text>
+      <ion-text class="text-xl">{{userProfile.email}}</ion-text>
+    </div>
+  </div>
+
+  <form [formGroup]="editForm" *ngIf="isEditing" id="form" (ngSubmit)="saveChanges()" class="flex flex-col">
+    <div class="mr-4 flex flex-col justify-center mb-10 items-center">
+      <img [src]="(tempPhotoUrl !== userProfile.photoUrl) ? tempPhotoUrl : (userProfile.photoUrl || 'https://ionicframework.com/docs/img/demos/avatar.svg')" alt="Foto de perfil" class="profile-image" />
+
+      <ion-text class="underline mt-3" color="primary" (click)="takePicture()">Cambiar foto</ion-text>
+    </div>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" id="name" formControlName="name" name="name"
+        placeholder="Nombre" required></ion-input>
+    </ion-item>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" id="email" formControlName="email" name="name"
+        placeholder="Email" required></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" shape="round" class="mt-8" >Guardar cambios</ion-button>
+  </form>
+</ion-content>

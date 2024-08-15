@@ -1,0 +1,93 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="isOpen = true">
+        <ion-icon name="add" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title class="text-center text-2xl">
+      Notas
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="presentPopover($event)">
+        <ion-icon name="person" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="isLoading; else content">
+    <ion-spinner name="crescent" color="primary" class="spinner-centered"></ion-spinner>
+  </div>
+
+  <ng-template #content>
+    <div *ngIf="notes.length > 0; else noNotes">
+      <ion-list>
+        <ion-item-sliding *ngFor="let item of notes">
+          <ion-item-options side="end">
+            <ion-item-option color="secondary" (click)="editNote(item)">Editar</ion-item-option>
+            <ion-item-option color="danger" (click)="deleteNote(item)">Eliminar</ion-item-option>
+          </ion-item-options>
+
+          <ion-item>
+            <ion-label>
+              <ion-text class="text-lg">
+                {{item?.title}}
+              </ion-text>
+              <p>
+                <ion-text class="ion-text-wrap line-clamp-3 text-base">
+                  {{item?.description}}
+                </ion-text>
+              </p>
+            </ion-label>
+          </ion-item>
+
+        </ion-item-sliding>
+      </ion-list>
+    </div>
+
+    <ng-template #noNotes>
+      <div class="ion-text-center ion-padding text-base text-gray-500 text-[18px]">
+        Sin notas creadas
+      </div>
+    </ng-template>
+  </ng-template>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-modal [isOpen]="isOpen" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <form #f="ngForm" class="h-full">
+        <ion-header class="ion-no-border">
+          <ion-toolbar>
+            <ion-buttons slot="start">
+              <ion-button (click)="cancel()">
+                <ion-icon name="arrow-back-outline" color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+            <ion-input type="text" class="text-center font-semibold text-2xl border-none input-title"
+              [(ngModel)]="model.title" fill="outline" placeholder="Titulo" required name="title"></ion-input>
+            <ion-buttons slot="end">
+              <ion-button (click)="save(f)">
+                <ion-icon slot="start" name="checkmark-outline" color="primary"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+          </ion-toolbar>
+        </ion-header>
+
+        <ion-content>
+          <ion-item>
+            <ion-textarea [autoGrow]="true" type="text" name="descripción"
+              class="border-none h-full text-[18px] w-full pt-3 input-desc" placeholder="Descripción de la nota"
+              [(ngModel)]="model.description" required name="description">
+            </ion-textarea>
+          </ion-item>
+        </ion-content>
+      </form>
+    </ng-template>
+  </ion-modal>
+
+</ion-content>

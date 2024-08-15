@@ -1,0 +1,46 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="header">
+    <h1>Crea una nueva cuenta!</h1>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" id="form" [formGroup]="editForm">
+    <div class="profile-image-container mt-2">
+      <img *ngIf="user.photoUrl" src="{{ user.photoUrl }}" alt="Profile Picture" class="profile-image"
+        (click)="takePicture()" />
+    </div>
+
+    <ion-button class="circle-button" shape="round" (click)="takePicture()" fill="clear"
+      style="background-color: rgb(160, 160, 160); color: white;" *ngIf="!user.photoUrl">
+      <ion-icon slot="icon-only" name="camera-outline"></ion-icon>
+    </ion-button>
+
+    <div *ngIf="errorMessage" class="bg-[#fee2e2] p-3 rounded-xl mb-3">
+      <ion-text class="text-[#c84646]">{{errorMessage}}</ion-text>
+    </div>
+
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="text" id="name" class="input-nopass" formControlName="name" [(ngModel)]="user.name" name="name" placeholder="Nombre" required></ion-input>
+    </ion-item>
+    <ion-item class="ion-margin-bottom">
+      <ion-input type="email" id="email" class="input-nopass" formControlName="email" [(ngModel)]="user.email" name="email" required placeholder="Email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="password" id="password" class="input-pass" formControlName="password" [(ngModel)]="user.password" name="password" placeholder="Contraseña"
+        required>
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+    </ion-item>
+
+    <ion-text class="underline flex justify-end mr-5 cursor-pointer mt-5" color="primary" (click)="navigateToLogin()">Ya
+      cuentas con una cuenta?</ion-text>
+    <ion-button [disabled]="!editForm.valid" id="button-send" expand="block" type="submit" shape="round" class="mt-8">
+      <ion-text *ngIf="!isLoading">Crear cuenta</ion-text>
+      <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+    </ion-button>
+  </form>
+</ion-content>
